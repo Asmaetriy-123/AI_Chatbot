@@ -1,30 +1,40 @@
-import {useRef,useEffect} from 'react'
-import {ChatMessage} from './ChatMessage.jsx'
+import { useRef, useEffect } from 'react'
+import { ChatMessage } from './ChatMessage.jsx'
 import './ChatMessages.css'
-function ChatMessages({ chatMessages }) {
-        const chatMessagesRef = useRef(null);
+import LoadingSpinner from '../assets/loading-spinner.gif'
 
-        useEffect(() => {
-          const containerElem = chatMessagesRef.current;
-          if (containerElem) {
-            containerElem.scrollTop = containerElem.scrollHeight;
-          }
-        }, [chatMessages]);
-        
+function ChatMessages({ chatMessages, isLoading }) {
+  const chatMessagesRef = useRef(null);
+
+  useEffect(() => {
+    const containerElem = chatMessagesRef.current;
+    if (containerElem) {
+      containerElem.scrollTop = containerElem.scrollHeight;
+    }
+  }, [chatMessages, isLoading]);
+
+  return (
+    <div className="chat-messages-container" ref={chatMessagesRef}>
+      {chatMessages.map((chatMessage) => {
         return (
-          <div className="chat-messages-container" ref={chatMessagesRef}>
-            {chatMessages.map((chatMessage) => {
-              return (
-                <ChatMessage
-                  message={chatMessage.message}
-                  sender={chatMessage.sender}
-                  key={chatMessage.id}
-                  time={chatMessage.time}
-                  
-                />
-              );
-            })}
-          </div>
+          <ChatMessage
+            message={chatMessage.message}
+            sender={chatMessage.sender}
+            key={chatMessage.id}
+            time={chatMessage.time}
+          />
         );
-      }
+      })}
+
+      {isLoading && (
+        <img
+          src={LoadingSpinner}
+          className="loading-spinner"
+          alt="Robot is typing..."
+        />
+      )}
+    </div>
+  );
+}
+
 export default ChatMessages

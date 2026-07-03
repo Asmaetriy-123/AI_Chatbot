@@ -5,3 +5,6 @@
         scrollbar-width: none;
 
       }
+      .loading-spinner{
+        width:50px;
+      }
